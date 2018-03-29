@@ -24,10 +24,16 @@ function logPageTimings() {
 }
 
 function logPerformance() {
-    if (window.performance.getEntriesByName) {
+    if (window.performance && window.performance.timing) {
         logPageTimings();
+    } else {
+        console.log("Page Timing API is not present");
+    }
+
+    if (window.performance && window.performance.getEntriesByName) {
         logResourceTimings("img");
         logResourceTimings("link");
+        logResourceTimings("script");
     } else {
         console.log("Resource Timing API is not present");
     }
@@ -35,4 +41,4 @@ function logPerformance() {
 
 //all images have finished loading once onload is called
 //but set a timeout, so that the load event finishes, and all page timers complete (some end after onload finishes)
-window.onload = setTimeout(logPerformance, 100);
+window.onload = setTimeout(logPerformance, 500);
